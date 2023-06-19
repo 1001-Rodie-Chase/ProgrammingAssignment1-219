@@ -3,6 +3,7 @@
 //Purpose: Reads a file and takes inputs and adds them
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 #define MAX_SIZE 1000
 #define FILE_NAME "Programming-Project-1.txt"
@@ -18,8 +19,8 @@ int main(){
         printf("Can't open file.\n");
     }
     else{
-        displayHexadecimalValue(dest_fp);
-        fclose(dest_fp);
+     displayHexadecimalValue(dest_fp);
+     fclose(dest_fp);
     }
     return 0;
 }
@@ -28,6 +29,16 @@ void displayHexadecimalValue(FILE* fptr) {
     char string[MAX_SIZE];
     while (fgets(string, sizeof(string), fptr) != NULL) {
         string[strcspn(string, "\n")] = '\0';
-        printf("%s:\n", string);
+
+        // Parsing hexadecimal values
+        uint32_t num1, num2;
+        sscanf(string, "ADD %*s %x %*s %x", &num1, &num2);
+
+        // Performing addition
+        uint32_t sum = num1 + num2;
+
+        // Displaying the result
+        printf("ADD %*s %#10x %*s %#10x: ", 10, "", num1, 10, "", num2);
+        printf("%#10x\n", sum);
     }
 }
